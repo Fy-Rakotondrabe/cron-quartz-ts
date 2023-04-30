@@ -1,4 +1,4 @@
-## cron_quartz_ts
+## cron-quartz-ts
 
 A library that generates `quartz` corresponding cron expressions
 
@@ -8,13 +8,13 @@ ___
 ## Install
 
 ``` bash
-npm install cron_quartz_ts
+npm install cron-quartz-ts
 ```
 ___
 ## Usage
 
 ``` typescript
-import { formatSeconds } from 'cron-quartz';
+import { formatSeconds } from 'cron-quartz-ts';
 
 // generates an expression for minutes
 const result = formatSeconds({
@@ -27,7 +27,7 @@ console.log(result) // => '* 1,2,3 * ? * * *'
 - you can format a pre existing cron expression
 
 ``` typescript
-import { formatMinutes } from 'cron-quartz';
+import { formatMinutes } from 'cron-quartz-ts';
 
 // generates an expression for minutes
 const cron = '1,2,3 * ? * * *';
