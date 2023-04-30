@@ -1,12 +1,14 @@
 ## cron_quartz_ts
 
 A library that generates `quartz` corresponding cron expressions
+
+TypeScript version of https://github.com/ChestnutChina/cron-quartz
 ___
 
 ## Install
 
 ``` bash
-npm install cron-quartz --save-dev
+npm install cron_quartz_ts
 ```
 ___
 ## Usage
