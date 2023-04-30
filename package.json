@@ -1,5 +1,5 @@
 {
-  "name": "cron_quartz_ts",
+  "name": "cron-quartz-ts",
   "version": "1.0.0",
   "description": "A library that generates quartz corresponding cron expressions",
   "main": "lib/index.js",
