@@ -1,8 +1,4 @@
-## TypeScript version of https://github.com/ChestnutChina/cron-quartz
-
-___
-
-## cron-quartz
+## cron_quartz_ts
 
 A library that generates `quartz` corresponding cron expressions
 ___
