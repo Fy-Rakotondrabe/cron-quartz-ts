@@ -33,5 +33,9 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^5.0.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fy-Rakotondrabe/cron_quartz_ts"
+  },
   "files": ["lib/**/*"]
 }
