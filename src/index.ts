@@ -1,12 +1,20 @@
 import { MORE_THAN_TWO, IS_EMPTY, MORE_THAN_ONE } from './constants';
-import { isArray, isInRange } from './validate';
+import { between, isArray, isInRange, specific, start } from './validate';
 import { spliceIntoPosition } from './splice_into_position';
 
-type DayType = 'start_on_month' | 'specific_on_month' | 'last_day_on_month' | 'last_week_on_month' | 'last_select_day_on_month' | 'before' | 'near' | 'day_on_every_month'
+type DayType =
+  | 'start_on_month'
+  | 'specific_on_month'
+  | 'last_day_on_month'
+  | 'last_week_on_month'
+  | 'last_select_day_on_month'
+  | 'before'
+  | 'near'
+  | 'day_on_every_month';
 
 interface Option {
-  type: 'every' | 'start' | 'specific' | 'between' | DayType,
-  list?: number[] | null,
+  type: 'every' | 'start' | 'specific' | 'between' | DayType;
+  list?: number[] | null;
   cron?: string;
 }
 
@@ -14,144 +22,87 @@ const defaultOptions: Option = {
   type: 'every',
   list: [],
   cron: '* * * ? * * *',
-}
+};
 
 const defaultCron: string = '* * * ? * * *';
 
-export const formatSeconds = (options: Option = defaultOptions) => {
-  const { type, list, cron } = {...defaultOptions, ...options};
+export const formatSeconds = (options: Option) => {
+  const { type, list, cron } = { ...defaultOptions, ...options };
 
   switch (type) {
     case 'every':
       return spliceIntoPosition(cron!, 0, '*');
     case 'start':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        isInRange(list[0], 0, 59);
-        isInRange(list[1], 1, 60);
-
-        return spliceIntoPosition(cron!, 0, list.join('/'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return start(
+        [
+          { min: 0, max: 59 },
+          { min: 1, max: 60 },
+        ],
+        cron!,
+        0,
+        list,
+      );
     case 'specific':
-      if (list && isArray(list)) {
-        if (list.length) {
-          list.forEach((item) => isInRange(item, 0, 59));
-        }
-        const char = list.length ? list.join(',') : 0;
-        return spliceIntoPosition(cron!, 0, char);
-      }
+      return specific({ min: 0, max: 59 }, cron!, 0, list);
     case 'between':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        list.forEach((item) => isInRange(item, 0, 59));
-
-        return spliceIntoPosition(cron!, 0, list.join('-'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return between({ min: 0, max: 59 }, cron!, 0, list);
     default:
-      return defaultCron; 
+      return defaultCron;
   }
-}
+};
 
-export const formatMinutes = (options: Option = defaultOptions) => {
-  const { type, list, cron } = {...defaultOptions, ...options};;
+export const formatMinutes = (options: Option) => {
+  const { type, list, cron } = { ...defaultOptions, ...options };
 
   switch (type) {
     case 'every':
       return spliceIntoPosition(cron!, 1, '*');
     case 'start':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        isInRange(list[0], 0, 59);
-        isInRange(list[1], 1, 60);
-
-        return spliceIntoPosition(cron!, 1, list.join('/'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return start(
+        [
+          { min: 0, max: 59 },
+          { min: 1, max: 60 },
+        ],
+        cron!,
+        1,
+        list,
+      );
     case 'specific':
-      if (list && isArray(list)) {
-        if (list.length) {
-          list.forEach((item) => isInRange(item, 0, 59));
-        }
-        const char = list.length ? list.join(',') : 0;
-        return spliceIntoPosition(cron!, 1, char);
-      }
+      return specific({ min: 0, max: 59 }, cron!, 1, list);
     case 'between':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        list.forEach((item) => isInRange(item, 0, 59));
-
-        return spliceIntoPosition(cron!, 1, list.join('-'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return between({ min: 0, max: 59 }, cron!, 1, list);
     default:
-      return defaultCron; 
+      return defaultCron;
   }
-}
+};
 
-export const formatHours = (options: Option = defaultOptions) => {
-  const { type, list, cron } = {...defaultOptions, ...options};;
+export const formatHours = (options: Option) => {
+  const { type, list, cron } = { ...defaultOptions, ...options };
 
   switch (type) {
     case 'every':
       return spliceIntoPosition(cron!, 2, '*');
     case 'start':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        isInRange(list[0], 0, 23);
-        isInRange(list[1], 1, 24);
-
-        return spliceIntoPosition(cron!, 2, list.join('/'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return start(
+        [
+          { min: 0, max: 23 },
+          { min: 1, max: 24 },
+        ],
+        cron!,
+        2,
+        list,
+      );
     case 'specific':
-      if (list && isArray(list)) {
-        if (list.length) {
-          list.forEach((item) => isInRange(item, 0, 23));
-        }
-        const char = list.length ? list.join(',') : 0;
-        return spliceIntoPosition(cron!, 2, char);
-      }
+      return specific({ min: 0, max: 23 }, cron!, 2, list);
     case 'between':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        list.forEach((item) => isInRange(item, 0, 23));
-
-        return spliceIntoPosition(cron!, 2, list.join('-'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return between({ min: 0, max: 23 }, cron!, 2, list);
     default:
-      return defaultCron; 
+      return defaultCron;
   }
-}
+};
 
-export const formatDays = (options: Option = defaultOptions) => {
-  const { type, list, cron } = {...defaultOptions, ...options};;
+export const formatDays = (options: Option) => {
+  const { type, list, cron } = { ...defaultOptions, ...options };
 
   switch (type) {
     case 'every':
@@ -215,7 +166,7 @@ export const formatDays = (options: Option = defaultOptions) => {
         }
       } else {
         throw Error(IS_EMPTY);
-      } 
+      }
     case 'before':
       if (list && isArray(list) && list.length) {
         if (list.length === 1) {
@@ -258,64 +209,37 @@ export const formatDays = (options: Option = defaultOptions) => {
         if (list.length > 2) {
           throw Error(MORE_THAN_TWO);
         }
-        
+
         if (list.length) {
           list.forEach((item) => isInRange(item, 1, 7));
         }
 
-        const char = list.length ? list.join('-') : 1;
-
-        return spliceIntoPosition(spliceIntoPosition(cron!, 3, '?'), 5, char);
+        return spliceIntoPosition(spliceIntoPosition(cron!, 3, '?'), 5, list.join('-'));
       }
     default:
-      return defaultCron; 
+      return defaultCron;
   }
-}
+};
 
-export const formatMonths = (options: Option = defaultOptions) => {
-  const { type, list, cron } = {...defaultOptions, ...options};;
+export const formatMonths = (options: Option) => {
+  const { type, list, cron } = { ...defaultOptions, ...options };
 
   switch (type) {
     case 'every':
       return spliceIntoPosition(cron!, 4, '*');
     case 'start':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        list.forEach((item) => isInRange(item, 1, 12));
-
-        return spliceIntoPosition(cron!, 4, list.join('/'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return start([{ min: 1, max: 12 }], cron!, 4, list, true);
     case 'specific':
-      if (list && isArray(list)) {
-        if (list.length) {
-          list.forEach((item) => isInRange(item, 1, 12));
-        }
-        const char = list.length ? list.join(',') : 1;
-        return spliceIntoPosition(cron!, 4, char);
-      }
+      return specific({ min: 1, max: 12 }, cron!, 4, list, 1);
     case 'between':
-      if (list && isArray(list) && list.length) {
-        if (list.length > 2) {
-          throw Error(MORE_THAN_TWO);
-        }
-
-        list.forEach((item) => isInRange(item, 1, 12));
-        return spliceIntoPosition(cron!, 4, list.join('-'));
-      } else {
-        throw Error(IS_EMPTY);
-      }
+      return between({ min: 1, max: 12 }, cron!, 4, list);
     default:
-      return defaultCron; 
+      return defaultCron;
   }
-}
+};
 
-export const formatYears = (options: Option = defaultOptions) => {
-  const { type, list, cron } = {...defaultOptions, ...options};;
+export const formatYears = (options: Option) => {
+  const { type, list, cron } = { ...defaultOptions, ...options };
 
   switch (type) {
     case 'every':
@@ -351,6 +275,6 @@ export const formatYears = (options: Option = defaultOptions) => {
         throw Error(IS_EMPTY);
       }
     default:
-      return defaultCron; 
+      return defaultCron;
   }
-}
+};
