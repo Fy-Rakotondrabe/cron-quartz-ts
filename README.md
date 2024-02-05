@@ -102,8 +102,8 @@ formatHours({ type: 'between', list: [12, 23]}) // => '* * 12-23 ? * * *'
 
 generates an expression for `days`
 
-* `opts.type`: there are eleven types to choose from `every` | `start` | `startOnMonth` | `specific` | `specificOnMonth` | `lastDayOnMonth` | `lastWeekOnMonth` | `lastSelectDayOnMonth` | `before` | `near` | `dayOnEveryMonth`
-* `opts.list`: Is an array type. Everything except `every` | `lastDayOnMonth` | `lastWeekOnMonth` is mandatory
+* `opts.type`: there are eleven types to choose from `every` | `start` | `start_on_month` | `specific` | `specific_on_month` | `last_day_on_month` | `last_week_on_month` | `last_select_day_on_month` | `before` | `near` | `day_on_every_month`
+* `opts.list`: Is an array type. Everything except `every` | `last_day_on_month` | `last_week_on_month` is mandatory
 
 ``` typescript
 formatDays({ type: 'every' }) // => '* * * ? * * *'
@@ -112,23 +112,23 @@ formatDays({ type: 'start', list: [2, 7]}) // => '* * * ? * 2/7 *'
 
 formatDays({ type: 'between', list: [2, 7]}) // => '* * * ? * 2-7 *'
 
-formatDays({ type: 'startOnMonth', list: [9, 8]}) // => '* * * 9/8 * ? *'
+formatDays({ type: 'start_on_month', list: [9, 8]}) // => '* * * 9/8 * ? *'
 
 formatDays({ type: 'specific', list: [2, 4, 6]}) // => '* * * ? * 2,4,6 *'
 
-formatDays({ type: 'specificOnMonth', list: [1, 15, 23, 31]}) // => '* * * 1,15,23,31 * ? *'
+formatDays({ type: 'specific_on_month', list: [1, 15, 23, 31]}) // => '* * * 1,15,23,31 * ? *'
 
-formatDays({ type: 'lastDayOnMonth' }) // => '* * * L * ? *'
+formatDays({ type: 'last_day_on_month' }) // => '* * * L * ? *'
 
-formatDays({ type: 'lastWeekOnMonth' }) // => '* * * LW * ? *'
+formatDays({ type: 'last_week_on_month' }) // => '* * * LW * ? *'
 
-formatDays({ type: 'lastSelectDayOnMonth', list: [2] }) // => '* * * ? * 2L *'
+formatDays({ type: 'last_select_day_on_month', list: [2] }) // => '* * * ? * 2L *'
 
 formatDays({ type: 'before', list: [15] }) // => '* * * L-15 * ? *'
 
 formatDays({ type: 'near', list: [11] }) // => '* * * 11W * ? *'
 
-formatDays({ type: 'dayOnEveryMonth', list: [1, 5] }) // => '* * * ? * 1#5 *'
+formatDays({ type: 'day_on_every_month', list: [1, 5] }) // => '* * * ? * 1#5 *'
 ```
 #### `formatMonths(opts)`
 
